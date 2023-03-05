@@ -7,4 +7,6 @@ import retrofit2.http.GET
 interface ApiInterface {
     @GET("ChangeState")
     suspend fun getData(): Response<MyData>
+    @GET("fetchState")
+    suspend fun getState(): Response<appBtnState>
 }

@@ -24,7 +24,12 @@ class MainActivity2 : AppCompatActivity() {
     lateinit var btn3: Button
     lateinit var btn4: Button
 
-    val baseUrl = "http://172.32.0.111:5000/api/v1/"
+    val baseUrl = "http://52.158.43.115:5000/api/v1/"
+    val retrofit_builder = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(baseUrl)
+        .build()
+        .create(ApiInterface::class.java)
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +40,14 @@ class MainActivity2 : AppCompatActivity() {
         btn3 = findViewById(R.id.btn3)
         btn4 = findViewById(R.id.btn4)
 
+        CoroutineScope(Dispatchers.Main).launch{
+            val retrofitData = retrofit_builder.getState().body()
+            Log.i("MyTag",retrofitData?.state.toString())
+            if(retrofitData?.state.toString() == "1"){
+                btn2.tag = 0
+                ChangeStatus(btn2)
+            }
+        }
 
         // Setting up listner on the btn
         btn1.setOnClickListener {
@@ -55,30 +68,26 @@ class MainActivity2 : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun ChangeStateOfApplicances() {
-        val retrofit_builder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(baseUrl)
-            .build()
-            .create(ApiInterface::class.java)
-
             CoroutineScope(Dispatchers.Main).launch{
                 val retrofitData = retrofit_builder.getData().body()
                 Log.i("MyTag",retrofitData.toString())
             }
     }
 
+
     // State Change
     fun ChangeStatus(button: Button){
-        if(button.getTag().toString().toInt() == 0)
+        if(button.tag.toString().toInt() == 0)
         {
             button.setBackgroundColor(Color.rgb(82,152,12))
-            button.setTag(1)
+            button.tag = 1
         }
         else
         {
             button.setBackgroundColor(Color.rgb(241,51,51))
-            button.setTag(0)
+            button.tag = 0
         }
     }
 }
