@@ -24,7 +24,7 @@ class MainActivity2 : AppCompatActivity() {
     lateinit var btn3: Button
     lateinit var btn4: Button
 
-    val baseUrl = "http://172.32.0.111:5000/api/v1/"
+    val baseUrl = "http://52.158.43.115:5000/api/v1/"
     @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
